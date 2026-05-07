@@ -3,186 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formation Technique KeePass - CIEL-GAS</title>
+    <title>Portail Formation KeePass - CIEL-GAS</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        :root {
+            --primary: #0A365C;
+            --accent: #F28C28;
+            --bg: #f1f5f9;
+            --text: #334155;
+            --white: #ffffff;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            background-color: #e2e8f0; display: grid; gap: 40px; place-items: center;
-            min-height: 100vh; padding: 40px 0; font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            min-height: 100vh;
         }
 
-        .slide {
-            background-color: #ffffff; border-radius: 12px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            width: 1280px; height: 720px; padding: 50px; position: relative; overflow: hidden;
-            display: flex; flex-direction: column;
+        /* Barre de Navigation Latérale */
+        nav {
+            width: 280px;
+            background: var(--primary);
+            color: white;
+            padding: 40px 20px;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        /* En-tête CIEL-GAS */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 3px solid #F28C28; padding-bottom: 15px; }
-        .header h1 { color: #0A365C; font-family: 'Poppins', sans-serif; font-size: 34px; }
-        .header .badge { background: #0A365C; color: white; padding: 8px 20px; border-radius: 20px; font-weight: 600; font-size: 16px; letter-spacing: 0.5px; }
-
-        /* Grille de contenu */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex-grow: 1; }
+        nav h2 { font-family: 'Poppins'; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
         
-        .card { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 30px; position: relative; display: flex; flex-direction: column; }
-        .card-icon { position: absolute; top: -20px; left: 30px; background: #F28C28; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 10px rgba(242, 140, 40, 0.3); }
-        
-        .card h2 { color: #0A365C; font-family: 'Poppins', sans-serif; font-size: 22px; margin-top: 10px; margin-bottom: 15px; }
-        .card p { color: #475569; font-size: 16px; line-height: 1.5; margin-bottom: 15px; }
-        .card ul { list-style: none; margin-bottom: 15px; flex-grow: 1; }
-        .card li { margin-bottom: 12px; font-size: 15px; color: #475569; display: flex; gap: 12px; line-height: 1.4; }
-        .card li i { color: #0A365C; margin-top: 3px; font-size: 14px; }
-        .card li strong { color: #0A365C; }
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
 
-        .alert-box { background: rgba(242, 140, 40, 0.1); border-left: 4px solid #F28C28; padding: 15px; border-radius: 0 8px 8px 0; margin-top: auto; }
-        .alert-box strong { color: #F28C28; display: block; margin-bottom: 5px; font-size: 15px; }
-        .alert-box p { color: #0A365C; font-size: 14px; font-weight: 500; margin-bottom: 0; }
-        
-        .footer { text-align: center; color: #94a3b8; font-size: 13px; margin-top: 20px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover, nav a.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--accent);
+        }
 
-        .tech-tag { display: inline-block; background: #e2e8f0; color: #0A365C; font-size: 12px; padding: 3px 8px; border-radius: 4px; font-weight: 600; margin-left: 10px; }
+        /* Contenu Principal */
+        main {
+            margin-left: 280px;
+            padding: 60px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .section-slide {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .header-slide {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-left: 5px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .header-slide h2 { font-family: 'Poppins'; color: var(--primary); font-size: 2rem; }
+
+        /* Grilles et Cartes */
+        .grid-tech { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        
+        .card-tech {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #edf2f7;
+            transition: transform 0.3s ease;
+        }
+
+        .card-tech:hover { transform: translateY(-5px); }
+
+        .card-tech h3 { color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .card-tech i { color: var(--accent); }
+
+        ul { list-style: none; margin-top: 20px; }
+        li { margin-bottom: 15px; display: flex; gap: 12px; font-size: 0.95rem; }
+        li i { font-size: 1rem; margin-top: 3px; }
+
+        /* Bloc Spécial AES */
+        .crypto-box {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            border-left: 4px solid #10b981;
+        }
+
+        .crypto-box span { color: #10b981; }
+
+        .badge-status {
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        footer { margin-top: 40px; text-align: center; font-size: 0.8rem; color: #94a3b8; }
     </style>
 </head>
 <body>
 
-<!-- SLIDE 1 : INTRODUCTION ET ARCHITECTURE -->
-<div class="slide">
-    <div class="header">
-        <h1>Formation KeePass : Équipe Technique CIEL-GAS</h1>
-        <div class="badge">Module 1/4 : Déploiement & Architecture</div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-server"></i></div>
-            <h2>1. Architecture et Fondamentaux</h2>
-            <p>KeePass est un gestionnaire de mots de passe <strong>Open-Source</strong> certifié par l'ANSSI. Contrairement aux solutions Cloud, il garantit une maîtrise totale des données de CIEL-GAS.</p>
-            <ul>
-                <li><i class="fa-solid fa-microchip"></i> <strong>Chiffrement robuste :</strong> Les bases sont chiffrées en AES-256 et Twofish <span class="tech-tag">Standards Militaires</span>.</li>
-                <li><i class="fa-solid fa-wifi"></i> <strong>100% Hors-ligne :</strong> Aucune synchronisation cloud forcée. L'isolation réseau empêche toute fuite de données (Data Leak).</li>
-                <li><i class="fa-solid fa-file-code"></i> <strong>Format KDBX :</strong> Les données sont compilées dans un fichier unique (.kdbx) contenant l'arborescence, les identifiants et les pièces jointes sécurisées.</li>
-            </ul>
+    <nav>
+        <h2>CIEL-GAS Academy</h2>
+        <a href="#m1" class="active"><i class="fa-solid fa-layer-group"></i> Architecture</a>
+        <a href="#m2"><i class="fa-solid fa-shield-halved"></i> Cryptographie</a>
+        <a href="#m3"><i class="fa-solid fa-laptop-code"></i> Exploitation</a>
+        <a href="#m4"><i class="fa-solid fa-hard-drive"></i> Résilience</a>
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px dotted rgba(255,255,255,0.2);">
+            <p style="font-size: 0.7rem; color: rgba(255,255,255,0.5);">ADMINISTRATION SYSTÈME<br>V 2.0 - 2026</p>
         </div>
+    </nav>
 
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-download"></i></div>
-            <h2>2. Installation & Déploiement</h2>
-            <p>Le déploiement pour l'équipe technique nécessite une approche standardisée pour assurer la compatibilité inter-postes.</p>
-            <ul>
-                <li><i class="fa-solid fa-terminal"></i> <strong>Version recommandée :</strong> Utilisez l'édition Portable (ZIP) de KeePass 2.x. Elle ne nécessite pas de droits administrateur et évite l'encombrement du registre Windows.</li>
-                <li><i class="fa-solid fa-folder-tree"></i> <strong>Création de la base :</strong> Fichier > Nouveau. Définissez l'emplacement du fichier <code>.kdbx</code>.</li>
-                <li><i class="fa-solid fa-language"></i> <strong>Localisation :</strong> Installez le pack de langue Français (`French.lngx`) dans le dossier d'exécution pour uniformiser l'interface pour toute l'équipe.</li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer">Document confidentiel CIEL-GAS - Niveau : Technicien / Administrateur</div>
-</div>
-
-<!-- SLIDE 2 : CRYPTOGRAPHIE ET ACCÈS -->
-<div class="slide">
-    <div class="header">
-        <h1>Formation KeePass : Équipe Technique CIEL-GAS</h1>
-        <div class="badge">Module 2/4 : Cryptographie & Accès</div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-key"></i></div>
-            <h2>3. Le Mot de Passe Maître (Master Key)</h2>
-            <p>C'est la clé de déchiffrement unique de la base. En tant qu'équipe technique, votre Master Key doit résister aux attaques par force brute et dictionnaire.</p>
-            <ul>
-                <li><i class="fa-solid fa-ruler-horizontal"></i> <strong>Entropie requise :</strong> Minimum 16 à 20 caractères.</li>
-                <li><i class="fa-solid fa-brain"></i> <strong>La méthode de la "Passphrase" :</strong> Utilisez une phrase secrète complexe intégrant ponctuation et chiffres. <br><i>Exemple : Le#Serveur42DeCielGasEstUltraRapide!</i></li>
-                <li><i class="fa-solid fa-eye-slash"></i> <strong>Aucune réutilisation :</strong> Ce mot de passe ne doit être utilisé NULLE PART AILLEURS dans le SI.</li>
-            </ul>
-            <div class="alert-box">
-                <strong><i class="fa-solid fa-skull-crossbones"></i> CRITIQUE (Zéro Knowledge)</strong>
-                <p>KeePass n'a pas de fonction "Mot de passe oublié". La perte du Master Key entraîne la destruction définitive et irréversible de l'accès à la base .kdbx.</p>
+    <main>
+        <section id="m1" class="section-slide">
+            <div class="header-slide">
+                <div>
+                    <span class="badge-status">Module 01</span>
+                    <h2>Architecture & Déploiement</h2>
+                </div>
+                <i class="fa-solid fa-server fa-3x" style="color: #e2e8f0;"></i>
             </div>
-        </div>
+            
+            <div class="grid-tech">
+                <div class="card-tech">
+                    <h3><i class="fa-solid fa-microchip"></i> Fondamentaux Tech</h3>
+                    <p>KeePass est un coffre-fort <strong>Zero-Knowledge</strong>. CIEL-GAS conserve l'exclusivité des clés de déchiffrement.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-check-circle"></i> <strong>Isolation :</strong> Aucune base de données sur le cloud public.</li>
+                        <li><i class="fa-solid fa-check-circle"></i> <strong>Format KDBX 4.0 :</strong> Support des pièces jointes et métadonnées chiffrées.</li>
+                    </ul>
+                </div>
+                <div class="card-tech">
+                    <h3><i class="fa-solid fa-download"></i> Standard Interne</h3>
+                    <p>Le déploiement doit suivre le standard établi pour la flotte de techniciens :</p>
+                    <ul>
+                        <li><i class="fa-solid fa-terminal"></i> Binaire portable (éviter l'installation MSI).</li>
+                        <li><i class="fa-solid fa-language"></i> Plugin de langue FR obligatoire.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-gears"></i></div>
-            <h2>4. Paramètres de Sécurité de la Base</h2>
-            <p>Une fois la base créée, configurez les options de sécurité avancées (Fichier > Paramètres de la base de données).</p>
-            <ul>
-                <li><i class="fa-solid fa-stopwatch"></i> <strong>Dérivation de clé (KDF) :</strong> Allez dans l'onglet Sécurité. Paramétrez l'algorithme sur <strong>Argon2</strong> (protection optimale contre les attaques GPU).</li>
-                <li><i class="fa-solid fa-recycle"></i> <strong>Itérations :</strong> Cliquez sur "Délai de 1 seconde". KeePass calculera le nombre d'itérations idéal pour ralentir toute tentative de piratage sans gêner votre usage.</li>
-                <li><i class="fa-solid fa-compress"></i> <strong>Compression :</strong> Activez la compression GZip pour optimiser le poids du fichier `.kdbx` lors des sauvegardes.</li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer">Document confidentiel CIEL-GAS - Niveau : Technicien / Administrateur</div>
-</div>
+        <section id="m2" class="section-slide">
+            <div class="header-slide">
+                <div>
+                    <span class="badge-status">Module 02</span>
+                    <h2>Sécurité & Cryptographie</h2>
+                </div>
+                <i class="fa-solid fa-key fa-3x" style="color: #e2e8f0;"></i>
+            </div>
+            
+            <div class="grid-tech">
+                <div class="card-tech">
+                    <h3><i class="fa-solid fa-lock"></i> Chiffrement AES-256</h3>
+                    <p>Standard de l'industrie pour la protection des données gouvernementales.</p>
+                    <div class="crypto-box">
+                        // Processus AES-256 <br>
+                        [Input] ClearText_Pass <br>
+                        [Key] Master_Key (256-bit) <br>
+                        [Rounds] 14 Cycles de transformation <br>
+                        <span>[Output] CipherText_Encrypted_Data</span>
+                    </div>
+                </div>
+                <div class="card-tech">
+                    <h3><i class="fa-solid fa-gears"></i> Protection Argon2</h3>
+                    <p>Configuration recommandée pour CIEL-GAS afin de contrer les attaques par force brute (GPU).</p>
+                    <ul>
+                        <li><i class="fa-solid fa-bolt"></i> <strong>KDF :</strong> Utiliser Argon2id.</li>
+                        <li><i class="fa-solid fa-clock"></i> <strong>Délai :</strong> Paramétrer sur 1 seconde de calcul.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-<!-- SLIDE 3 : EXPLOITATION QUOTIDIENNE -->
-<div class="slide">
-    <div class="header">
-        <h1>Formation KeePass : Équipe Technique CIEL-GAS</h1>
-        <div class="badge">Module 3/4 : Exploitation & Productivité</div>
-    </div>
+        <section id="m3" class="section-slide">
+            <div class="header-slide">
+                <div>
+                    <span class="badge-status">Module 03</span>
+                    <h2>Exploitation Quotidienne</h2>
+                </div>
+                <i class="fa-solid fa-keyboard fa-3x" style="color: #e2e8f0;"></i>
+            </div>
+            <div class="grid-tech">
+                <div class="card-tech">
+                    <h3><i class="fa-solid fa-bolt"></i> Saisie Auto (Auto-Type)</h3>
+                    <p>Utilisez <strong>CTRL + V</strong> pour injecter les identifiants sans passer par le presse-papier Windows.</p>
+                </div>
+                <div class="card-tech">
+                    <h3><i class="fa-solid fa-sitemap"></i> Organisation SI</h3>
+                    <p>Structurez la base par arborescence logique (Serveurs, Réseau, Applicatifs).</p>
+                </div>
+            </div>
+        </section>
 
-    <div class="grid-2">
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-sitemap"></i></div>
-            <h2>5. Structuration de l'Information</h2>
-            <p>Une équipe technique gère des centaines d'accès (Serveurs, BDD, Réseaux, Switchs). L'organisation est primordiale.</p>
-            <ul>
-                <li><i class="fa-solid fa-folder"></i> <strong>Groupes logiques :</strong> Créez des dossiers par périmètre (Ex: Production, Pré-Prod, Réseaux internes, Accès Fournisseurs).</li>
-                <li><i class="fa-solid fa-icons"></i> <strong>Icônes personnalisées :</strong> Attribuez des icônes spécifiques pour repérer immédiatement un accès SSH (Terminal) d'un accès Web (Navigateur).</li>
-                <li><i class="fa-solid fa-magnifying-glass"></i> <strong>Recherche :</strong> Utilisez la barre de recherche (`Ctrl+F`) pour retrouver un accès en moins de 2 secondes lors d'une intervention critique.</li>
-            </ul>
-        </div>
+        <section id="m4" class="section-slide">
+            <div class="header-slide">
+                <div>
+                    <span class="badge-status">Module 04</span>
+                    <h2>Résilience & Sauvegardes</h2>
+                </div>
+                <i class="fa-solid fa-database fa-3x" style="color: #e2e8f0;"></i>
+            </div>
+            <div class="card-tech" style="border-left: 5px solid #10b981;">
+                <h3><i class="fa-solid fa-shield-heart"></i> La règle d'or 3-2-1</h3>
+                <p>Pour assurer la continuité de service de CIEL-GAS :</p>
+                <ul>
+                    <li><strong>3</strong> copies des bases de données.</li>
+                    <li><strong>2</strong> supports différents (Local / NAS).</li>
+                    <li><strong>1</strong> copie hors-site (Coffre physique ou Cloud chiffré).</li>
+                </ul>
+            </div>
+        </section>
 
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
-            <h2>6. Génération et Saisie Automatique</h2>
-            <p>L'objectif est de ne plus jamais saisir de mot de passe au clavier, évitant ainsi l'interception par des Keyloggers.</p>
-            <ul>
-                <li><i class="fa-solid fa-dice-d20"></i> <strong>Générateur (Profils) :</strong> Configurez le générateur de mots de passe pour créer par défaut des chaînes de 24 caractères (A-Z, a-z, 0-9, !@#$).</li>
-                <li><i class="fa-solid fa-keyboard"></i> <strong>Saisie Automatique (Auto-Type) :</strong> Raccourci `Ctrl + V`. Sélectionnez la fenêtre de connexion en arrière-plan, KeePass tapera l'identifiant et le mot de passe automatiquement.</li>
-                <li><i class="fa-solid fa-eraser"></i> <strong>Presse-papiers :</strong> Si vous utilisez le Copier/Coller classique, sachez que KeePass vide automatiquement la mémoire du presse-papiers après 12 secondes.</li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer">Document confidentiel CIEL-GAS - Niveau : Technicien / Administrateur</div>
-</div>
+        <footer>
+            PROPRIÉTÉ DE CIEL-GAS - DIFFUSION RESTREINTE AUX ÉQUIPES TECHNIQUES
+        </footer>
+    </main>
 
-<!-- SLIDE 4 : BONNES PRATIQUES TECH -->
-<div class="slide">
-    <div class="header">
-        <h1>Formation KeePass : Équipe Technique CIEL-GAS</h1>
-        <div class="badge">Module 4/4 : Protocoles et Résilience</div>
-    </div>
+    <script>
+        // Petit script pour activer le lien du menu au défilement
+        window.addEventListener('scroll', () => {
+            let current = "";
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-    <div class="grid-2">
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-shield-virus"></i></div>
-            <h2>7. Protocoles de Sécurité au Poste</h2>
-            <p>En tant qu'administrateurs du SI CIEL-GAS, l'hygiène de sécurité sur votre poste de travail doit être irréprochable.</p>
-            <ul>
-                <li><i class="fa-solid fa-lock"></i> <strong>Verrouillage proactif :</strong> Appuyez TOUJOURS sur `Ctrl + L` (ou le bouton Cadenas) pour verrouiller la base dès que vous vous levez de votre bureau.</li>
-                <li><i class="fa-solid fa-gears"></i> <strong>Auto-verrouillage :</strong> Allez dans Outils > Options > Sécurité. Activez le verrouillage automatique après 5 minutes d'inactivité de l'ordinateur.</li>
-                <li><i class="fa-solid fa-ban"></i> <strong>Interdiction :</strong> Ne laissez jamais le fichier d'installation KeePass et la base `.kdbx` ouverts dans une session à distance (RDP/TeamViewer) sans surveillance.</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-hard-drive"></i></div>
-            <h2>8. Résilience et Sauvegardes (Règle 3-2-1)</h2>
-            <p>La perte de la base technique paralyserait l'entreprise. Vous devez appliquer une politique de sauvegarde stricte.</p>
-            <ul>
-                <li><i class="fa-solid fa-copy"></i> <strong>3 Copies :</strong> Conservez au moins trois copies du fichier `.kdbx` (Le poste local, le NAS de l'entreprise, et un support externe chiffré hors-site).</li>
-                <li><i class="fa-solid fa-timeline"></i> <strong>Versionning :</strong> KeePass garde l'historique des modifications d'une entrée. Si vous écrasez un mot de passe par erreur, allez dans l'onglet "Historique" de l'entrée pour le restaurer.</li>
-                <li><i class="fa-solid fa-share-nodes"></i> <strong>Cloisonnement :</strong> Ne partagez JAMAIS votre Master Key, même entre membres de l'équipe technique.</li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer">Document confidentiel CIEL-GAS - Niveau : Technicien / Administrateur</div>
-</div>
-
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
