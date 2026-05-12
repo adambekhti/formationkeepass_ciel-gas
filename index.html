@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formation Avancée KeePass - CIEL-GAS</title>
+    <title>Formation KeePass - CIEL-GAS</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
             --primary: #0A365C;
             --accent: #F28C28;
             --success: #10b981;
-            --warning: #f59e0b;
             --danger: #ef4444;
             --bg: #f8fafc;
             --white: #ffffff;
+            --sidebar-width: 280px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
@@ -26,12 +28,29 @@
             display: flex;
         }
 
-        /* NAVIGATION */
+        /* BARRE DE PROGRESSION EN HAUT */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: 4px;
+            background: #e2e8f0;
+            z-index: 1000;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.2s;
+        }
+
+        /* NAVIGATION LATÉRALE */
         nav {
-            width: 300px;
+            width: var(--sidebar-width);
             background: var(--primary);
             color: white;
-            padding: 30px;
+            padding: 25px;
             position: fixed;
             height: 100vh;
             display: flex;
@@ -39,250 +58,232 @@
             box-shadow: 4px 0 10px rgba(0,0,0,0.1);
         }
 
-        .logo-area { text-align: center; margin-bottom: 40px; }
-        .logo-area h1 { font-family: 'Poppins'; font-size: 1.4rem; color: var(--accent); }
-        .logo-area p { font-size: 0.8rem; opacity: 0.7; }
+        .logo-area { text-align: center; margin-bottom: 30px; }
+        .logo-area h1 { font-family: 'Poppins'; font-size: 1.2rem; color: var(--accent); }
+        .logo-area span { font-size: 0.75rem; opacity: 0.8; letter-spacing: 1px; }
 
-        nav a {
-            color: rgba(255,255,255,0.8);
+        .nav-links { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+        
+        .nav-item {
+            color: rgba(255,255,255,0.7);
             text-decoration: none;
             padding: 12px 15px;
             border-radius: 8px;
-            margin-bottom: 5px;
             transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 0.95rem;
         }
 
-        nav a:hover, nav a.active {
+        .nav-item:hover, .nav-item.active {
             background: rgba(255,255,255,0.1);
             color: white;
-            border-left: 4px solid var(--accent);
         }
+        .nav-item.active { border-left: 4px solid var(--accent); }
 
-        /* MAIN CONTENT */
-        main { margin-left: 300px; padding: 50px; width: 100%; max-width: 1100px; }
+        /* CONTENU PRINCIPAL */
+        main { 
+            margin-left: var(--sidebar-width); 
+            padding: 40px 60px; 
+            width: 100%; 
+            max-width: 1000px; 
+        }
 
         .module-card {
             background: var(--white);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
         }
 
-        .module-header {
-            border-bottom: 2px solid var(--bg);
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .module-tag {
+            background: #f1f5f9;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
-        h2 { font-family: 'Poppins'; color: var(--primary); font-size: 1.8rem; }
-        h3 { color: var(--primary); margin: 25px 0 15px 0; font-size: 1.3rem; }
+        h2 { font-family: 'Poppins'; color: var(--primary); margin: 15px 0; font-size: 1.7rem; }
 
-        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        
-        .step-box {
-            background: #f1f5f9;
+        /* TESTEUR DE MOT DE PASSE (Modèle interactif) */
+        .pw-container {
+            background: #f8fafc;
             padding: 20px;
             border-radius: 12px;
-            border-left: 4px solid var(--primary);
+            border: 1px solid #cbd5e1;
         }
-
-        /* ALERT BOXES */
-        .alert { padding: 20px; border-radius: 10px; margin: 20px 0; display: flex; gap: 15px; align-items: center; }
-        .alert-danger { background: #fef2f2; border: 1px solid #fee2e2; color: #991b1b; }
-        .alert-info { background: #eff6ff; border: 1px solid #dbeafe; color: #1e40af; }
-
-        /* QUIZ SECTION */
-        #quiz-container {
-            background: var(--primary);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 30px;
-        }
-
-        .quiz-option {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            margin: 10px 0;
+        #pw-tester {
+            width: 100%;
+            padding: 12px;
             border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            outline: none;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+        .checklist { list-style: none; font-size: 0.9rem; }
+        .checklist li { margin-bottom: 5px; color: #64748b; display: flex; align-items: center; gap: 8px; }
+        .checklist i { font-size: 1rem; }
+
+        /* QUIZ STYLE VIDÉO */
+        .quiz-option {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 10px;
             cursor: pointer;
             transition: 0.3s;
+            font-weight: 500;
+        }
+        .quiz-option:hover { border-color: var(--accent); background: #fffcf9; }
+        
+        #quiz-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            font-weight: 600;
         }
 
-        .quiz-option:hover { background: rgba(255,255,255,0.2); }
-
-        .btn-check {
-            background: var(--accent);
-            color: var(--primary);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        code { background: #334155; color: #f8fafc; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        footer { text-align: center; padding: 40px; color: #94a3b8; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
     <nav>
         <div class="logo-area">
             <h1>CIEL-GAS</h1>
-            <p>SECURITY TRAINING CENTER</p>
+            <span>SECURITY TRAINING</span>
         </div>
-        <a href="#intro" class="active"><i class="fa-solid fa-graduation-cap"></i> Introduction</a>
-        <a href="#install"><i class="fa-solid fa-download"></i> Installation Tech</a>
-        <a href="#config"><i class="fa-solid fa-gears"></i> Configuration Avancée</a>
-        <a href="#usage"><i class="fa-solid fa-key"></i> Usage Quotidien</a>
-        <a href="#backup"><i class="fa-solid fa-database"></i> Résilience (3-2-1)</a>
-        <a href="#quiz"><i class="fa-solid fa-vial"></i> Validation (Quiz)</a>
+        <div class="nav-links">
+            <a href="#intro" class="nav-item active"><i class="fa-solid fa-flag"></i> Objectifs</a>
+            <a href="#config" class="nav-item"><i class="fa-solid fa-gears"></i> Configuration</a>
+            <a href="#cle" class="nav-item"><i class="fa-solid fa-key"></i> Mot de Passe</a>
+            <a href="#quiz" class="nav-item"><i class="fa-solid fa-vial"></i> Validation</a>
+        </div>
     </nav>
 
     <main>
         <section id="intro" class="module-card">
-            <div class="module-header">
-                <h2>0. Objectifs de la Formation</h2>
-                <span style="color: var(--accent); font-weight: bold;">[DURÉE : 45 MIN]</span>
-            </div>
-            <p>Cette session vise à transformer l'équipe technique en administrateurs de leurs propres accès sécurisés. À la fin de ce module, vous serez capable de :</p>
-            <ul style="margin: 20px 0; list-style-position: inside;">
-                <li>Maîtriser l'installation portable sécurisée.</li>
-                <li>Configurer le moteur cryptographique <strong>Argon2id</strong>.</li>
-                <li>Appliquer les protocoles de sauvegarde d'entreprise.</li>
-            </ul>
-        </section>
-
-        <section id="install" class="module-card">
-            <div class="module-header">
-                <h2>1. Déploiement & Installation</h2>
-            </div>
-            <div class="tech-grid">
-                <div class="step-box">
-                    <h3>Choix du Binaire</h3>
-                    <p>Pour CIEL-GAS, nous privilégions la version <strong>Portable (.zip)</strong>.</p>
-                    <p style="font-size: 0.8rem; margin-top: 10px;"><em>Pourquoi ?</em> Évite les traces en base de registre et permet un usage sur clé USB sécurisée en cas d'intervention sur site isolé.</p>
-                </div>
-                <div class="step-box">
-                    <h3>Vérification d'Intégrité</h3>
-                    <p>Toujours vérifier le Hash (SHA-256) du fichier téléchargé :</p>
-                    <code>Get-FileHash .\KeePass-2.5x.zip</code>
-                </div>
-            </div>
+            <span class="module-tag">Module 0</span>
+            <h2>Objectifs de la Formation</h2>
+            <p>Apprenez à sécuriser vos accès avec le standard <strong>Argon2id</strong> et à gérer vos bases KeePass comme un expert.</p>
         </section>
 
         <section id="config" class="module-card">
-            <div class="module-header">
-                <h2>2. Configuration de Haute Sécurité</h2>
-            </div>
-            <p>Une configuration par défaut n'est pas suffisante pour un profil technique.</p>
-            
-            <div class="alert alert-info">
-                <i class="fa-solid fa-circle-info fa-2x"></i>
-                <div>
-                    <strong>Recommandation Argon2 :</strong> Allez dans <em>Fichier > Paramètres de la base > Sécurité</em>. 
-                    Argon2 est conçu pour résister aux attaques massives par GPU.
-                </div>
-            </div>
-
-            <h3>Paramètres de verrouillage</h3>
-            <ul style="list-style: none;">
-                <li><i class="fa-solid fa-clock"></i> Verrouillage auto après 300s d'inactivité.</li>
-                <li><i class="fa-solid fa-memory"></i> Effacement du presse-papier après 12s.</li>
-            </ul>
-        </section>
-
-        <section id="usage" class="module-card">
-            <div class="module-header">
-                <h2>3. Maîtrise de l'Interface</h2>
-            </div>
-            <div class="tech-grid">
-                <div>
-                    <h3>Génération de Clés</h3>
-                    <p>Utilisez le générateur intégré pour créer des mots de passe à <strong>haute entropie</strong>.</p>
-                    <p>Standard CIEL-GAS : <code>24 caractères / Spéciaux / Chiffres</code></p>
-                </div>
-                <div>
-                    <h3>Auto-Type (CTRL+V)</h3>
-                    <p>La saisie automatique simule des frappes clavier réelles. C'est la meilleure protection contre les <strong>Keyloggers</strong> logiciels.</p>
-                </div>
+            <span class="module-tag">Module 1</span>
+            <h2>Configuration de Haute Sécurité</h2>
+            <p>Pour résister aux attaques par force brute (GPU), réglez votre base sur :</p>
+            <div style="background: #eff6ff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <code>Fichier > Paramètres de la base > Sécurité > Argon2id</code>
             </div>
         </section>
 
-        <section id="backup" class="module-card">
-            <div class="module-header">
-                <h2>4. Stratégie de Résilience 3-2-1</h2>
-            </div>
-            <p>La perte de la base KeePass équivaut à une perte totale d'accès au SI.</p>
-            <div class="alert alert-danger">
-                <i class="fa-solid fa-triangle-exclamation fa-2x"></i>
-                <div>
-                    <strong>Règle d'or :</strong> Ne stockez jamais le mot de passe maître (Master Password) dans un fichier texte à côté de la base.
-                </div>
-            </div>
-            <div class="tech-grid">
-                <div class="step-box"><strong>3 COPIES :</strong> 1 de travail, 2 backups.</div>
-                <div class="step-box"><strong>2 SUPPORTS :</strong> Disque local et NAS sécurisé.</div>
-                <div class="step-box"><strong>1 HORS-SITE :</strong> Copie chiffrée sur un cloud souverain ou site physique distant.</div>
+        <section id="cle" class="module-card">
+            <span class="module-tag">Module 2</span>
+            <h2>Votre Mot de Passe Maître</h2>
+            <p>C'est la clé de voûte de votre coffre-fort. Testez sa force ici :</p>
+            <br>
+            <div class="pw-container">
+                <input type="password" id="pw-tester" placeholder="Tapez un mot de passe test...">
+                <ul class="checklist">
+                    <li id="len"><i class="fa-solid fa-circle-xmark"></i> 12 caractères minimum</li>
+                    <li id="up"><i class="fa-solid fa-circle-xmark"></i> Une Majuscule</li>
+                    <li id="num"><i class="fa-solid fa-circle-xmark"></i> Un chiffre</li>
+                    <li id="spec"><i class="fa-solid fa-circle-xmark"></i> Un caractère spécial</li>
+                </ul>
             </div>
         </section>
 
         <section id="quiz" class="module-card">
-            <div class="module-header">
-                <h2>5. Validation des Connaissances</h2>
+            <span class="module-tag">Validation</span>
+            <h2>Quiz de Certification</h2>
+            <div id="quiz-box">
+                <p><strong>Quel algorithme est recommandé par CIEL-GAS contre le cassage GPU ?</strong></p>
+                <div class="quiz-option" onclick="checkQuiz(this, false)">A. AES-KDF (Standard)</div>
+                <div id="correct-answer" class="quiz-option" onclick="checkQuiz(this, true)">B. Argon2id (Ultra-Sécurisé)</div>
+                <div class="quiz-option" onclick="checkQuiz(this, false)">C. Mot de passe "Maman123"</div>
             </div>
-            <div id="quiz-container">
-                <p><strong>Question : Quel algorithme de dérivation de clé (KDF) est le plus efficace contre les attaques par brute-force GPU ?</strong></p>
-                <div class="quiz-option" onclick="selectOption(this)">A. AES-KDF (Standard)</div>
-                <div class="quiz-option" id="correct-opt" onclick="selectOption(this)">B. Argon2 (Recommandé)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C. SHA-256 Simple</div>
-                <button class="btn-check" onclick="checkQuiz()">Vérifier la réponse</button>
-                <p id="quiz-res" style="margin-top: 15px; display: none;"></p>
-            </div>
+            <div id="quiz-feedback"></div>
         </section>
 
         <footer>
-            &copy; 2026 CIEL-GAS Security - Document à l'usage exclusif de l'équipe technique.
+            &copy; 2026 CIEL-GAS - Sécurité des Systèmes d'Information
         </footer>
     </main>
 
     <script>
-        // NAVIGATION ACTIVE
-        const links = document.querySelectorAll('nav a');
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                links.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
+        // 1. GESTION DU SCROLL (Barre de progression + Menu Active)
+        window.onscroll = () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // ScrollSpy
+            const sections = document.querySelectorAll("section");
+            const navItems = document.querySelectorAll(".nav-item");
+            let current = "";
+
+            sections.forEach(s => {
+                if (pageYOffset >= s.offsetTop - 100) current = s.getAttribute("id");
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove("active");
+                if (item.getAttribute("href").includes(current)) item.classList.add("active");
+            });
+        };
+
+        // 2. TESTEUR DE MOT DE PASSE DYNAMIQUE
+        const pwInput = document.getElementById('pw-tester');
+        const reqs = {
+            len: { el: document.getElementById('len'), reg: /.{12,}/ },
+            up: { el: document.getElementById('up'), reg: /[A-Z]/ },
+            num: { el: document.getElementById('num'), reg: /[0-9]/ },
+            spec: { el: document.getElementById('spec'), reg: /[^A-Za-z0-9]/ }
+        };
+
+        pwInput.addEventListener('input', () => {
+            const val = pwInput.value;
+            Object.keys(reqs).forEach(k => {
+                const isValid = reqs[k].reg.test(val);
+                reqs[k].el.style.color = isValid ? "#10b981" : "#64748b";
+                reqs[k].el.querySelector('i').className = isValid ? "fa-solid fa-circle-check" : "fa-solid fa-circle-xmark";
             });
         });
 
-        // QUIZ LOGIC
-        function selectOption(el) {
-            document.querySelectorAll('.quiz-option').forEach(opt => opt.style.background = 'rgba(255,255,255,0.1)');
-            el.style.background = 'rgba(242, 140, 40, 0.4)';
-            el.classList.add('selected');
-        }
+        // 3. LOGIC DU QUIZ (Inspiré de ton exemple vidéo)
+        function checkQuiz(element, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('quiz-feedback');
+            
+            options.forEach(opt => opt.style.pointerEvents = "none"); // Bloquer après clic
 
-        function checkQuiz() {
-            const res = document.getElementById('quiz-res');
-            const correct = document.getElementById('correct-opt');
-            if(correct.style.background.includes('0.4')) {
-                res.innerHTML = "✅ Correct ! Argon2 est le standard actuel pour CIEL-GAS.";
-                res.style.color = "#10b981";
+            feedback.style.display = "block";
+            if(isCorrect) {
+                element.style.background = "rgba(16, 185, 129, 0.2)";
+                element.style.borderColor = "#10b981";
+                feedback.innerHTML = "✅ Bravo ! Argon2id est le bouclier contre les attaques par carte graphique.";
+                feedback.style.background = "#d1fae5";
+                feedback.style.color = "#065f46";
             } else {
-                res.innerHTML = "❌ Mauvaise réponse. Revoyez le module 2 sur la Cryptographie.";
-                res.style.color = "#fb7185";
+                element.style.background = "rgba(239, 68, 68, 0.2)";
+                element.style.borderColor = "#ef4444";
+                document.getElementById('correct-answer').style.borderColor = "#10b981";
+                feedback.innerHTML = "❌ Erreur. La réponse B était la bonne (Argon2id).";
+                feedback.style.background = "#fee2e2";
+                feedback.style.color = "#991b1b";
             }
-            res.style.display = "block";
         }
     </script>
 </body>
